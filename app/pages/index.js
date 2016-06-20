@@ -1,3 +1,5 @@
-export default function(app) {
+import discover from './discover';
 
+export default function(app) {
+	discover(app);
 };

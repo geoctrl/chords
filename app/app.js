@@ -5,6 +5,7 @@ import './sass/main.scss';
 import angular from 'angular';
 import 'angular-local-storage';
 import 'angular-ui-router';
+import 'd3';
 
 // polyfill the Promise global
 import promise from 'es6-promise';
