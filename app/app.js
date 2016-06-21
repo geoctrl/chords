@@ -6,6 +6,7 @@ import angular from 'angular';
 import 'angular-local-storage';
 import 'angular-ui-router';
 import 'd3';
+import angularSanitize from 'angular-sanitize';
 
 // polyfill the Promise global
 import promise from 'es6-promise';
@@ -15,7 +16,8 @@ var app = angular.module('chords', [
 
   // vendor dependencies
   'LocalStorageModule',
-  'ui.router'
+  'ui.router',
+		angularSanitize
 
 ]);
 
