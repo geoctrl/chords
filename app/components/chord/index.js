@@ -8,11 +8,12 @@ export default function() {
 		let vm = this;
 
 		let width =  70,
-				height = 110,
+				height = 90,
 				padding = {top: 20, left: 20, right: 20, bottom: 20},
 				grey = '#808080',
+				blue = '#517F89',
 				stringArray = ['E', 'A', 'D', 'G', 'B', 'e'],
-				fretArray = [1,1,1,1,1,1,1];
+				fretArray = [1,1,1,1,1,1];
 
 		let svg = d3.select($element[0]).append('svg');
 
@@ -28,12 +29,10 @@ export default function() {
 
 		function build(chordId) {
 
-			if (!chordId) {
-				throw `[Chord] A valid "chord" attribute is required`
-			}
-
-			// get chord
+			if (!chordId) throw `[Chord Error] A valid "chord" attribute is required`;
 			let chord = chordMap[chordId];
+			if (!chord) throw `[Chord Error] Chord "${chordId}" does not exist`;
+
 			let spaceBetweenStrings = width/(stringArray.length-1);
 			let spaceBetweenFrets = height/(fretArray.length-1);
 			vm.chordName = chord.name.slice(0, 1);
@@ -61,8 +60,8 @@ export default function() {
 					.attr('y2', (d, i) => (spaceBetweenFrets*i)+padding.top)
 					.attr('stroke', grey)
 					.attr('stroke-width', (d, i) => {
-						// make width look like nut if fret base == 0
-						return i == 0 && chord.fret == 0 ? 7 : 1
+						// make width look like nut if fret number exists
+						return i == 0 && !chord.fret ? 7 : 1
 					});
 
 			// build finger placement
@@ -81,8 +80,8 @@ export default function() {
 						}
 					})
 					.attr('r', 4)
-					.attr('fill', (d, i) => d && d > 0 ? '#517F89' : '#fff')
-					.attr('stroke', d => d && d > 0 ? '#517F89' : '#b3b3b3')
+					.attr('fill', (d, i) => d && d > 0 ? blue : '#fff')
+					.attr('stroke', d => d && d > 0 ? blue : '#b3b3b3')
 					.attr('stroke-width', 1);
 			
 			// build mutes
@@ -108,28 +107,28 @@ export default function() {
 
 			if (chord.wrap) {
 				// start & end position
-				let mX = padding.left + (spaceBetweenStrings*(chord.wrap[0]-1)) + 8;
-				let mY = padding.top + (spaceBetweenFrets*(chord.wrap[2])) - (spaceBetweenFrets/2);
+				let mX = padding.left + (spaceBetweenStrings*(chord.wrap[0]-1));
+				let mY = padding.top + (spaceBetweenFrets*(chord.wrap[2])) - spaceBetweenFrets + 2;
 				// position 1
-				let p1X = padding.left + (spaceBetweenStrings*(chord.wrap[1]-1)) - 8;
-				let p1Y = padding.top + (spaceBetweenFrets*(chord.wrap[2])) - (spaceBetweenFrets/2);
+				let p1X = padding.left + (spaceBetweenStrings*(chord.wrap[1]-1));
+				let p1Y = padding.top + (spaceBetweenFrets*(chord.wrap[2])) - spaceBetweenFrets + 2;
 				// quad curve
 				let q1X = ((p1X - mX)/2) + mX; // center between two points
-				let q1Y = padding.top + (spaceBetweenFrets*(chord.wrap[2])) - (spaceBetweenFrets/2) - 5;
+				let q1Y = padding.top + (spaceBetweenFrets*(chord.wrap[2])) - (spaceBetweenFrets) - ((chord.wrap[1]-chord.wrap[0])*2);
 
 
 				// build wrap
 				wrap.attr('d', `M ${mX} ${mY} Q ${q1X} ${q1Y} ${p1X} ${p1Y} Q ${q1X} ${q1Y-4} ${mX} ${mY} Z`)
-						.attr('fill', grey)
-						.attr('stroke', grey)
+						.attr('fill', blue)
+						.attr('stroke', blue)
 						.attr('stroke-linecap', 'round');
 			}
 
-			if (chord.fret > 0) {
+			if (chord.fret) {
 				fretNum.text(chord.fret)
 						.attr('fill', grey)
 						.attr('x', padding.left - 4)
-						.attr('y', padding.top + (spaceBetweenFrets/2) + 5)
+						.attr('y', padding.top + (spaceBetweenFrets/2) + 4.5)
 						.attr('text-anchor', 'end')
 						.style('font-weight', 500)
 						.style('font-size', 12)

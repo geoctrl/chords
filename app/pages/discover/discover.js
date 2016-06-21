@@ -2,16 +2,22 @@ export default function() {
 
 	let ctrl = function() {
 		let vm = this;
-		vm.c = 'ebsus4';
-		vm.d = 'd';
-		vm.cm = 'cm';
 	};
 
 	let template = `
 		<div>
-			<chord chord-id="discover.c"></chord>
-			<chord chord-id="discover.d"></chord>
-			<chord chord-id="discover.cm"></chord>
+			<chord chord-id="true?'c':''"></chord>
+			<chord chord-id="true?'cm':''"></chord>
+			<chord chord-id="true?'c6':''"></chord>
+			<chord chord-id="true?'c69':''"></chord>
+			<chord chord-id="true?'c7':''"></chord>
+			<chord chord-id="true?'c9':''"></chord>
+			<chord chord-id="true?'cadd9':''"></chord>
+			<chord chord-id="true?'cmaj7':''"></chord>
+			<chord chord-id="true?'csus2':''"></chord>
+			<chord chord-id="true?'c7sus4':''"></chord>
+			<chord chord-id="true?'cmadd9':''"></chord>
+			<chord chord-id="true?'cm7':''"></chord>
 		</div>
 	`;
 
