@@ -1,13 +1,13 @@
 /**
  * Explanation
  *
- * name:    the name of the chord (html characters allowed
+ * name:    the name of the chord (html characters allowed)
  *
  * fret:    the root fret number
  *
  * strings: an array to tell what is happening on each string
  *             0 = play open
- *           > 0 = finger press on specific fret
+ *            0< = finger press on specific fret
  *          null = don't play (mute)
  *
  * wrap:    an array of three to show a finger wrap between two strings and on what fret
@@ -78,9 +78,113 @@ export default {
 		wrap: [2, 6, 3]
 	},
 
+	'cm11': {
+		name: 'Cm11',
+		strings: [null, 3, null, 3, 4, 1]
+	},
+	'c13': {
+		name: 'C13',
+		strings: [null, 3, 2, 3, 3, 5],
+		wrap: [4, 5, 3]
+	},
+	'c7flat9': {
+		name: 'C7&#9837;9',
+		strings: [null, 3, 2, 3, 2, 3],
+		wrap: [3, 5, 2]
+	},
+	'cd': {
+		name: 'C/D',
+		strings: [null, null, 0, 0, 1, 0]
+	},
+	'ce': {
+		name: 'C/E',
+		strings: [0, 3, 2, 0, 1, 0]
+	},
+
+	'cf': {
+		name: 'C/F',
+		strings: [1, null, null, 0, 1, 0]
+	},
+
+	'cg': {
+		name: 'C/G',
+		strings: [3, 3, 2, 0, 1, 0]
+	},
+
+	'cb': {
+		name: 'C/B',
+		strings: [null, 2, 2, 0, 1, 0]
+	},
+
+	'cbflat': {
+		name: 'C/B&#9837;',
+		strings: [null, 1, 2, 0, 1, 0]
+	},
+
+	'c7g': {
+		name: 'C7/G',
+		strings: [3, null, 2, 3, 1, 0]
+	},
+
+	'csharp': {
+		name: 'C&#9839;',
+		fret: 4,
+		strings: [null, 1, 3, 3, 3, 1],
+		wrap: [2, 6, 1]
+	},
+
+	'csharpm': {
+		name: 'C&#9839;m',
+		fret: 4,
+		strings: [null, 1, 3, 3, 2, 1],
+		wrap: [2, 6, 1]
+	},
+
+	'csharp7': {
+		name: 'C&#9839;7',
+		fret: 4,
+		strings: [null, 1, 3, 1, 3, 1],
+		wrap: [2, 6, 1]
+	},
+
+	'csharpmaj7': {
+		name: 'C&#9839;maj7',
+		fret: 4,
+		strings: [null, 1, 3, 2, 3, 1],
+		wrap: [2, 6, 1]
+	},
+
+	'csharpm7': {
+		name: 'C&#9839;m7',
+		fret: 4,
+		strings: [null, 1, 3, 1, 2, 1],
+		wrap: [2, 6, 1]
+	},
+
+	'csharpsus4': {
+		name: 'C&#9839;sus4',
+		fret: 4,
+		strings: [null, 1, 3, 3, 4, 1],
+		wrap: [2, 6, 1]
+	},
+
+	'csharp11': {
+		name: 'C&#9839;11',
+		fret: 4,
+		strings: [null, 1, 1, 1, 1, 1],
+		wrap: [2, 6, 1]
+	},
+
+	'csharpesharp': {
+		name: 'C&#9839;/E&#9839;',
+		fret: 6,
+		strings: [null, 3, 1, 1, 1, null],
+		wrap: [2, 6, 1]
+	},
 
 
-	
+
+
 
 	'd': {
 		name: 'D',

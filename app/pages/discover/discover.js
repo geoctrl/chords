@@ -6,18 +6,25 @@ export default function() {
 
 	let template = `
 		<div>
-			<chord chord-id="true?'c':''"></chord>
-			<chord chord-id="true?'cm':''"></chord>
-			<chord chord-id="true?'c6':''"></chord>
-			<chord chord-id="true?'c69':''"></chord>
-			<chord chord-id="true?'c7':''"></chord>
-			<chord chord-id="true?'c9':''"></chord>
-			<chord chord-id="true?'cadd9':''"></chord>
-			<chord chord-id="true?'cmaj7':''"></chord>
-			<chord chord-id="true?'csus2':''"></chord>
-			<chord chord-id="true?'c7sus4':''"></chord>
-			<chord chord-id="true?'cmadd9':''"></chord>
-			<chord chord-id="true?'cm7':''"></chord>
+			<chord chord-id="'c7flat9'"></chord>
+			<chord chord-id="'cd'"></chord>
+			<chord chord-id="'ce'"></chord>
+			<chord chord-id="'cf'"></chord>
+			<chord chord-id="'cg'"></chord>
+			<chord chord-id="'cb'"></chord>
+			<chord chord-id="'cbflat'"></chord>
+			<chord chord-id="'c7g'"></chord>
+			<chord chord-id="'csharp'"></chord>
+			<chord chord-id="'csharpm'"></chord>
+			<chord chord-id="'csharp7'"></chord>
+			<chord chord-id="'csharpmaj7'"></chord>
+			<chord chord-id="'csharpm7'"></chord>
+			<chord chord-id="'csharpsus4'"></chord>
+			<chord chord-id="'csharp11'"></chord>
+			<chord chord-id="'csharpesharp'"></chord>
+			<tablature>
+				
+			</tablature>
 		</div>
 	`;
 
