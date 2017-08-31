@@ -1,69 +1,107 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
 
-var config = {
-	entry: path.resolve(__dirname, 'app', 'app.js'),
-	output: {
-		path: path.resolve(__dirname, 'app'),
-		filename: 'bundle.js'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
-				loader: 'ng-annotate!babel?presets[]=es2015',
-				exclude: [/node_modules/, /lib/]
-			},
-			{
-				test: /\.json$/,
-				loader: 'json',
-				exclude: [/node_modules/, /lib/]
-			},
-			{
-				test: /.html$/,
-				loader: 'raw',
-				exclude: [/node_modules/, /lib/]
-			},
-			{
-				test: /.scss$/,
-				loader: 'style!css!postcss-loader!sass',
-				exclude: [/node_modules/, /lib/]
-			},
-			{
-				test: /\.svg$/,
-				loader: 'svg-inline?removeTags=true&removingTags[]=style',
-				exclude: [/node_modules/, /lib/]
-			}
-		]
-	},
-	plugins: [
-		new webpack.DefinePlugin({
-			__DEV__: (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV),
-			__PROD__: process.env.NODE_ENV === 'production'
-		}),
-		new HtmlWebpackPlugin({
-			hash: true,
-			template: 'app/index.ejs',
-			appMountId: 'chords',
-			baseHref: process.env.NODE_ENV === 'production' ? '/' : '/'
-		})
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
-	],
-	postcss: function() {
-		return [require('autoprefixer')];
-	}
-};
+const script = process.env.npm_lifecycle_event;
+const isTest = script === 'test' || script === 'test-watch';
+const isProd = script === 'build';
+const isDev = !isTest && !isProd;
 
-if (process.env.NODE_ENV === 'development') {
+const include = [
+  path.resolve(__dirname, 'app')
+];
 
-}
+module.exports = function() {
+  let config = {};
 
-if (process.env.NODE_ENV === 'production') {
-	config.output.path = path.resolve(__dirname, 'dist');
-	// config.devtool = 'source-map';
-	config.plugins.push(new webpack.optimize.UglifyJsPlugin());
-}
+  config.entry = path.resolve(__dirname, 'app', 'index.js');
+  config.output = {
+    path: path.resolve(__dirname, isProd ? 'dist' : 'app'),
+    filename: '[name].js',
+    publicPath: '/'
+  };
 
-module.exports = config;
+  // if (isProd) {
+  config.devtool = 'source-map';
+  // }
+
+  // vue.js npm package is runtime-only - use the dist version to get the compiler
+  config.resolve = {
+    extensions: ['.js', '.scss', '.html'],
+    alias: {
+      vue: 'vue/dist/vue.js'
+    }
+  };
+
+  config.cache = true;
+
+  config.module = {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include
+      },
+      {
+        test: /.scss$/,
+        loader: 'style-loader!css-loader!postcss-loader!sass-loader',
+        include
+      },
+      {
+        test: /.html$/,
+        loader: 'raw-loader?html-minify-loader',
+        include
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader',
+        options: {
+          removeTags: true,
+          removingTags: ['style']
+        },
+        include
+      }
+    ]
+  };
+
+
+  config.plugins = [
+    new webpack.DefinePlugin({
+      'process.env': {
+        IS_DEV: !isProd,
+        IS_PROD: isProd
+      }
+    })
+  ];
+
+  if (!isTest) {
+    config.plugins.push(
+        new HtmlWebpackPlugin({
+          template: 'app/index.ejs',
+          isDev,
+          isProd
+        })
+    );
+  }
+
+  config.devServer = {
+    contentBase: './app',
+    historyApiFallback: {
+      index: 'app/index.html'
+    },
+    port: 8080,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        secure: false,
+        //in prod, nginx will strip the /api part of the URL, so we do the same here
+        //the backend isn't aware of the URL prefix that directs to it
+        pathRewrite: (path) => path.replace('/api', '')
+      }
+    }
+  };
+
+  return config;
+}();

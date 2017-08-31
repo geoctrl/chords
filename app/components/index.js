@@ -1,5 +1,1 @@
-import chord from './chord';
-
-export default function(app) {
-	app.directive('chord', chord);
-};
+export * from './chord/chord.component';
