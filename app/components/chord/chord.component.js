@@ -4,9 +4,14 @@ import _isNull from 'lodash/isNull';
 import { chordMap } from './chord.map';
 
 export const ChordComponent = Vue.component('chord', {
-
   props: ['chordId'],
-  template: `<div class="chord"><div class="chord__name">{{chordName}}<svg ref="svg"></svg></div></div>`,
+  template:
+`<div class="chord">
+    <div class="chord__name">
+        {{chordName}}<span v-html="chordExt"></span>
+        <svg ref="svg"></svg>
+    </div>
+</div>`,
 
   mounted() {
     this.svg = d3.select(this.$refs.svg);
@@ -20,13 +25,19 @@ export const ChordComponent = Vue.component('chord', {
       width: 70,
       height: 90,
       padding: {top: 20, left: 20, right: 20, bottom: 20},
-      color: { grey:'#808080', blue:'#517F89' },
+      color: { grey:'#808080', blue: '#4a78b3' },
       stringArray: ['E', 'A', 'D', 'G', 'B', 'e'],
       fretArray: [1,1,1,1,1,1],
       svg: null,
 
       chordName: '',
       chordExt: ''
+    }
+  },
+
+  watch: {
+    'chordId': function(chordId) {
+      this.build(chordId);
     }
   },
 
@@ -102,7 +113,9 @@ export const ChordComponent = Vue.component('chord', {
           .append('g')
           .attr('width', 8)
           .attr('height', 8)
-          .style('transform', (d, i) => `translate(${(spaceBetweenStrings*i)+this.padding.left-3}px, ${_isNull(d) ? `${this.padding.top-11}` : '-100'}px)`)
+          .style('transform', (d, i) => {
+            return `translate(${(spaceBetweenStrings*i)+this.padding.left-3}px, ${_isNull(d) ? `${this.padding.top-11}` : '-100'}px)`;
+          })
           .selectAll('rect')
           .data([1,1])
           .enter()

@@ -180,8 +180,15 @@ export const chordMap = {
     wrap: [2, 6, 1]
   },
 
+  'a': {
+    name: 'A',
+    strings: [null, 0, 2, 2, 2, 0]
+  },
 
-
+  'am': {
+    name: 'Am',
+    strings: [null, 0, 2, 2, 1, 0]
+  },
 
 
   'd': {
@@ -193,5 +200,5 @@ export const chordMap = {
     fret: 6,
     strings: [null, 1, 3, 3, 4, 1],
     wrap: [2, 6, 1]
-  }
+  },
 };
